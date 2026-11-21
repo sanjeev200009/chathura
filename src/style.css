@@ -4,7 +4,7 @@
 @import "@fontsource/poppins/500.css";
 @import "@fontsource/poppins/600.css";
 
-body { margin: 0; background: #0b1412; overflow-x: hidden; }
+body { margin: 0; background: #fff; overflow-x: hidden; }
 
 /* The stage is the Figma frame: 1896 x 1069. main.js scales it to the window width. */
 #hero-wrap { width: 100%; position: relative; }

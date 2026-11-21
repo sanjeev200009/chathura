@@ -4,18 +4,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const W = 1896, H = 1069
+const W = 1896, H = 1069, PAD = 6 // white border around the hero, in design px
 const wrap = document.querySelector('#hero-wrap')
 const hero = document.querySelector('#hero')
 
 // Scale the whole 1896 x 1069 frame to the window width (pixel-proportional).
 function fit() {
-  const s = innerWidth / W
+  const s = innerWidth / (W + 2 * PAD) // the white page frame is 1896 + 6px each side
   // dev only: ?z=3&x=300&y=100 magnifies the frame around a design point for pixel checks
   const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
   const z = +(zq?.get('z') || 1), zx = +(zq?.get('x') || 0), zy = +(zq?.get('y') || 0)
-  hero.style.transform = z > 1 ? `scale(${s * z}) translate(${-zx}px, ${-zy}px)` : `scale(${s})`
-  wrap.style.height = `${H * s}px`
+  hero.style.transform = z > 1
+    ? `scale(${s * z}) translate(${PAD - zx}px, ${PAD - zy}px)`
+    : `scale(${s}) translate(${PAD}px, ${PAD}px)`
+  wrap.style.height = `${(H + PAD) * s}px`
   ScrollTrigger.refresh()
 }
 addEventListener('resize', fit)
