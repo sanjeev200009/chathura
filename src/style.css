@@ -4,6 +4,7 @@
 @import "@fontsource/poppins/500.css";
 @import "@fontsource/poppins/600.css";
 
+html { overflow-y: scroll; } /* always keep the scroll bar so the width (and the white border) never shifts */
 body { margin: 0; background: #fff; overflow-x: hidden; }
 
 /* The stage is the Figma frame: 1896 x 1069. main.js scales it to the window width. */

@@ -10,14 +10,14 @@ const hero = document.querySelector('#hero')
 
 // Scale the whole 1896 x 1069 frame to the window width (pixel-proportional).
 function fit() {
-  const s = innerWidth / (W + 2 * PAD) // the white page frame is 1896 + 6px each side
+  const s = document.documentElement.clientWidth / (W + 2 * PAD) // clientWidth = without the scroll bar // the white page frame is 1896 + 6px each side
   // dev only: ?z=3&x=300&y=100 magnifies the frame around a design point for pixel checks
   const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
   const z = +(zq?.get('z') || 1), zx = +(zq?.get('x') || 0), zy = +(zq?.get('y') || 0)
   hero.style.transform = z > 1
     ? `scale(${s * z}) translate(${PAD - zx}px, ${PAD - zy}px)`
     : `scale(${s}) translate(${PAD}px, ${PAD}px)`
-  wrap.style.height = `${(H + PAD) * s}px`
+  wrap.style.height = `${(H + 2 * PAD) * s}px`
   ScrollTrigger.refresh()
 }
 addEventListener('resize', fit)
