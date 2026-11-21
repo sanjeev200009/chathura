@@ -7,6 +7,8 @@ gsap.registerPlugin(ScrollTrigger)
 const W = 1896, H = 1069, PAD = 6 // white border around the hero, in design px
 const wrap = document.querySelector('#hero-wrap')
 const hero = document.querySelector('#hero')
+let fx
+const mouse = { x: 0.5, y: 0.5, sx: 0.5, sy: 0.5 }
 
 // Scale the whole 1896 x 1069 frame to the window width (pixel-proportional).
 function fit() {
@@ -18,6 +20,7 @@ function fit() {
     ? `scale(${s * z}) translate(${PAD - zx}px, ${PAD - zy}px)`
     : `scale(${s}) translate(${PAD}px, ${PAD}px)`
   wrap.style.height = `${(H + 2 * PAD) * s}px`
+  fx?.resize(s)
   ScrollTrigger.refresh()
 }
 addEventListener('resize', fit)
@@ -50,4 +53,29 @@ if (!still) {
   // Scroll: portrait and icons drift at different speeds.
   gsap.to('#portrait', { y: -40, ease: 'none', scrollTrigger: { trigger: wrap, start: 'top top', end: 'bottom top', scrub: 1 } })
   gsap.to('.tool', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: wrap, start: 'top top', end: 'bottom top', scrub: 1.4 } })
+}
+
+if (!still) {
+  // Premium layer (Three.js): aurora light, particles, cursor light.
+  const { startFx } = await import('./fx.js')
+  fx = startFx(document.querySelector('#fx'), W, H, mouse)
+  fit()
+
+  // Depth parallax: layers move differently with the cursor; icons tilt in 3D.
+  addEventListener('pointermove', (e) => {
+    const r = hero.getBoundingClientRect()
+    mouse.x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width))
+    mouse.y = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))
+    const dx = mouse.x - 0.5, dy = mouse.y - 0.5
+    tx('#hero-title', -dx * 24)
+    tx('#portrait', dx * 30, dx * 3)
+    document.querySelectorAll('.tool').forEach((el, i) => tx(el, dx * (46 + i * 8), dx * 22, -dy * 16))
+  })
+}
+const quick = new Map()
+function tx(target, x, ry = 0, rx = 0) {
+  const el = typeof target === 'string' ? document.querySelector(target) : target
+  if (!quick.has(el)) quick.set(el, { x: gsap.quickTo(el, 'x', { duration: 0.9, ease: 'power3.out' }), ry: gsap.quickTo(el, 'rotationY', { duration: 0.9, ease: 'power3.out' }), rx: gsap.quickTo(el, 'rotationX', { duration: 0.9, ease: 'power3.out' }) })
+  const q = quick.get(el)
+  q.x(x); q.ry(ry); q.rx(rx)
 }

@@ -13,9 +13,10 @@ body { margin: 0; background: #fff; overflow-x: hidden; }
   position: absolute; left: 0; top: 0; width: 1896px; height: 1069px;
   transform-origin: 0 0; overflow: hidden; border-radius: 20px;
   background: #0c1715 url("/hero/bg.webp") 0 0 / 1896px 1069px no-repeat;
-  font-family: "Poppins", sans-serif; color: #fff;
+  font-family: "Poppins", sans-serif; color: #fff; perspective: 1400px;
 }
 #hero > * { position: absolute; }
+#fx { left: 0; top: 0; width: 1896px; height: 1069px; pointer-events: none; }
 
 #hero-title {
   left: 0; top: 159px; width: 1896px; margin: 0; text-align: center;
