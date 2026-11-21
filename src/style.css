@@ -1,1 +1,58 @@
 @import "tailwindcss";
+@import "@fontsource/josefin-sans/700.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+
+body { margin: 0; background: #0b1412; overflow-x: hidden; }
+
+/* The stage is the Figma frame: 1896 x 1069. main.js scales it to the window width. */
+#hero-wrap { width: 100%; position: relative; }
+#hero {
+  position: absolute; left: 0; top: 0; width: 1896px; height: 1069px;
+  transform-origin: 0 0; overflow: hidden; border-radius: 20px;
+  background: #0c1715 url("/hero/bg.webp") 0 0 / 1896px 1069px no-repeat;
+  font-family: "Poppins", sans-serif; color: #fff;
+}
+#hero > * { position: absolute; }
+
+#hero-title {
+  left: 0; top: 159px; width: 1896px; margin: 0; text-align: center;
+  font: 700 119px/135px "Josefin Sans", sans-serif; letter-spacing: 0;
+}
+#hero-title .line { display: block; overflow: hidden; }
+#hero-title .line > span { display: block; }
+#hero-title .line:nth-child(2) { transform: translateX(38px); font-size: 121px; }
+
+#portrait { left: 577px; top: 286px; width: 743px; height: 775px; }
+
+.tool { height: auto; will-change: transform; }
+#tool-ai    { left: 536px;  top: 512px; width: 178px; }
+#tool-figma { left: 1191px; top: 489px; width: 173px; }
+#tool-canva { left: 200px;  top: 722px; width: 190px; }
+#tool-ps    { left: 1542px; top: 751px; width: 143px; }
+
+#cursor { left: 1323px; top: 192px; }
+#expert {
+  left: 1345px; top: 214px; width: 83px; height: 37px; border-radius: 999px;
+  background: #c8f21d; color: #0a0a0a; font: 500 16px/37px "Poppins", sans-serif; text-align: center;
+}
+
+#nav {
+  left: 164px; top: 35px; width: 1570px; height: 81px; border-radius: 999px; box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,.16); background: rgba(8,60,45,.28);
+  backdrop-filter: blur(6px);
+}
+#nav a { color: inherit; text-decoration: none; }
+#logo { position: absolute; left: 56px; top: 0; line-height: 79px; font: 600 27px/79px "Poppins", sans-serif; letter-spacing: .02em; }
+#nav ul {
+  position: absolute; left: 0; right: 0; top: 0; margin: 0; padding: 0; list-style: none;
+  height: 79px; display: flex; justify-content: center; align-items: center; gap: 46px;
+}
+#nav li a { font: 400 16px/1 "Poppins", sans-serif; letter-spacing: .02em; color: rgba(225,240,234,.82); }
+#cta {
+  position: absolute; right: 26px; top: 16px; width: 159px; height: 48px; border-radius: 999px;
+  background: #fff; color: #0a0a0a !important; font: 600 15px/48px "Poppins", sans-serif; text-align: center;
+}
+
+#overlay { max-width: none; left: -35px; top: -26px; width: 1975px; opacity: .5; pointer-events: none; z-index: 50; }

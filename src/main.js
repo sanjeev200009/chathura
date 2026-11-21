@@ -1,63 +1,51 @@
 import './style.css'
-import * as THREE from 'three'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// --- Three.js scene ---
-const canvas = document.querySelector('#scene')
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true })
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
+const W = 1896, H = 1069
+const wrap = document.querySelector('#hero-wrap')
+const hero = document.querySelector('#hero')
 
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100)
-camera.position.set(0, 0, 6)
-
-scene.add(new THREE.AmbientLight(0xffffff, 0.6))
-const light = new THREE.DirectionalLight(0xffffff, 2)
-light.position.set(3, 4, 5)
-scene.add(light)
-
-const mesh = new THREE.Mesh(
-  new THREE.TorusKnotGeometry(1, 0.32, 160, 24),
-  new THREE.MeshStandardMaterial({ color: 0x6d5efc, metalness: 0.5, roughness: 0.25 }),
-)
-scene.add(mesh)
-
-function resize() {
-  const { innerWidth: w, innerHeight: h } = window
-  renderer.setSize(w, h, false)
-  camera.aspect = w / h
-  camera.updateProjectionMatrix()
+// Scale the whole 1896 x 1069 frame to the window width (pixel-proportional).
+function fit() {
+  const s = innerWidth / W
+  // dev only: ?z=3&x=300&y=100 magnifies the frame around a design point for pixel checks
+  const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
+  const z = +(zq?.get('z') || 1), zx = +(zq?.get('x') || 0), zy = +(zq?.get('y') || 0)
+  hero.style.transform = z > 1 ? `scale(${s * z}) translate(${-zx}px, ${-zy}px)` : `scale(${s})`
+  wrap.style.height = `${H * s}px`
+  ScrollTrigger.refresh()
 }
-addEventListener('resize', resize)
-resize()
+addEventListener('resize', fit)
+fit()
 
-gsap.ticker.add((t) => {
-  mesh.rotation.y += 0.004 // idle spin on top of the scroll motion
-  renderer.render(scene, camera)
-})
+// ?overlay shows the Figma reference at 50% on top (dev only) for pixel checks.
+const q = new URLSearchParams(location.search)
+if (import.meta.env.DEV && q.has('overlay')) {
+  const { default: ref } = await import('../design/hero-reference.png')
+  const o = document.querySelector('#overlay')
+  o.src = ref
+  o.hidden = false
+}
 
-// --- Scroll-driven motion (scrubbed to scroll position) ---
-const tl = gsap.timeline({
-  defaults: { ease: 'none' },
-  scrollTrigger: { trigger: 'main', start: 'top top', end: 'bottom bottom', scrub: 1 },
-})
-tl.to(mesh.position, { x: 2, duration: 1 }, 0)
-  .to(mesh.rotation, { x: Math.PI * 2, duration: 2 }, 0)
-  .to(camera.position, { z: 4, duration: 1 }, 0)
-  .to(mesh.position, { x: -2, duration: 1 }, 1)
-  .to(camera.position, { z: 7, duration: 1 }, 1)
-  .to(mesh.material.color, { r: 0.1, g: 0.8, b: 0.7, duration: 2 }, 0)
+// ?still turns motion off (and so does reduced motion) so the frame matches Figma exactly.
+const still = q.has('still') || matchMedia('(prefers-reduced-motion: reduce)').matches
+if (!still) {
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+  tl.from('#nav', { y: -40, opacity: 0, duration: 0.8 })
+    .from('#hero-title .line > span', { yPercent: 110, duration: 1, stagger: 0.12 }, 0.1)
+    .from('#portrait', { y: 60, opacity: 0, duration: 1 }, 0.3)
+    .from('.tool', { scale: 0.4, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'back.out(1.8)' }, 0.7)
+    .from('#expert, #cursor', { scale: 0, opacity: 0, duration: 0.5, transformOrigin: '0 100%', ease: 'back.out(2)' }, 1.1)
 
-// --- Text reveal as sections enter ---
-gsap.utils.toArray('[data-reveal]').forEach((el) => {
-  gsap.from(el, {
-    y: 40,
-    opacity: 0,
-    duration: 0.8,
-    ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' },
+  // Idle float (moves the icons a few px; use ?still to compare with Figma).
+  document.querySelectorAll('.tool').forEach((el, i) => {
+    gsap.to(el, { y: i % 2 ? 10 : -10, duration: 2.4 + i * 0.3, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1.5 })
   })
-})
+
+  // Scroll: portrait and icons drift at different speeds.
+  gsap.to('#portrait', { y: -40, ease: 'none', scrollTrigger: { trigger: wrap, start: 'top top', end: 'bottom top', scrub: 1 } })
+  gsap.to('.tool', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: wrap, start: 'top top', end: 'bottom top', scrub: 1.4 } })
+}
