@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "@fontsource/josefin-sans/700.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/quicksand/300.css";
+@import "@fontsource/quicksand/400.css";
+@import "@fontsource/quicksand/500.css";
+@import "@fontsource/quicksand/700.css";
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+
+html { overflow-y: scroll; } /* always keep the scroll bar so the width (and the white border) never shifts */
+body { margin: 0; background: #fff; overflow-x: hidden; }
+
+/* The stage is the Figma frame: 1896 x 1069. main.js scales it to the window width. */
+#hero-wrap { width: 100%; position: relative; }
+
+/* Shared navigation (every page) */
+#nav {
+  left: 164px; top: 35px; width: 1570px; height: 81px; border-radius: 999px; box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,.16); background: rgba(8,60,45,.28);
+  backdrop-filter: blur(6px);
+}
+#nav a { color: inherit; text-decoration: none; }
+#logo { position: absolute; left: 56px; top: 0; line-height: 79px; font: 600 27px/79px "Poppins", sans-serif; letter-spacing: .02em; }
+#nav ul {
+  position: absolute; left: 0; right: 0; top: 0; margin: 0; padding: 0; list-style: none;
+  height: 79px; display: flex; justify-content: center; align-items: center; gap: 46px;
+}
+#nav li a { font: 400 16px/1 "Poppins", sans-serif; letter-spacing: .02em; color: rgba(225,240,234,.82); }
+#cta {
+  position: absolute; right: 26px; top: 16px; width: 159px; height: 48px; border-radius: 999px;
+  background: #fff; color: #0a0a0a !important; font: 600 15px/48px "Poppins", sans-serif; text-align: center;
+}
+
+/* Chips and shared buttons */
+#chip, .chip { position: absolute; left: 364px; top: 65px; height: 26px; padding: 0 12px; border-radius: 999px; background: #e9f2f0; display: flex; align-items: center; gap: 9px; font: 600 12px/26px "Inter", sans-serif; letter-spacing: .01em; }
+.chip-grey { background: #dfe3ea; color: #0b0f19; }
+.chip-dark { background: #7f879f; color: #fff; }
+.chip-light { background: rgba(255,255,255,.2); color: #fff; }
+.gbtn { position: absolute; left: 32px; top: 393px; width: 197px; height: 55px; box-sizing: border-box; border-radius: 999px; border: 1px solid #b2c1be; background: #fff; color: #0a0a0a; text-decoration: none; text-align: center; font: 500 13.4px/53px "Inter", sans-serif; transition: background .25s, color .25s, border-color .25s; }
+.gbtn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+.wbtn { position: absolute; left: 0; top: 961px; width: 198px; height: 56px; border-radius: 999px; background: #fff; color: #0a0a0a; text-decoration: none; text-align: center; font: 500 13.4px/56px "Inter", sans-serif; }
+
+/* Word masks for heading reveals, and the scroll progress line */
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+#progress { position: fixed; left: 0; top: 0; width: 100%; height: 3px; background: #1fb88a; transform: scaleX(0); transform-origin: 0 50%; z-index: 100; pointer-events: none; }
