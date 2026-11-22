@@ -34,7 +34,35 @@ const markers = secs.map(() => wrap.appendChild(Object.assign(document.createEle
 
 let scale = 1, aurora
 const mobile = isMobile() // phones and tablets: a normal flowing page, no scaling, no layering
-const place = () => { if (!isMobile()) secs.forEach((el, i) => { el.style.top = `${baseY[i] * scale}px` }) }
+
+// Layered scrolling. As the next section comes up, the one above it reacts:
+// - a white, full-width section is held back (it moves slower), so the next one slides over it;
+// - a framed section (the hero and the green panels, with their white gap and rounded corners)
+//   shrinks back a little instead, so nothing ever slides over its frame.
+// Both also dim a little.
+const framed = [true, false, false, true, false, true, false]
+const frameW = [W, 0, 0, 1870, 0, 1870, 0] // design width of each framed section
+const lifts = secs.map(() => 0) // px a white section is held back
+const shrink = secs.map(() => 1) // how far a framed section has shrunk (1 = full size)
+secs.forEach((el) => el.classList.add('sec'))
+
+function place() {
+  if (isMobile()) return
+  secs.forEach((el, i) => {
+    el.style.top = `${baseY[i] * scale + lifts[i]}px`
+    if (i === 0) return paintHero()
+    const k = shrink[i], dx = (frameW[i] * scale * (1 - k)) / 2 // keep it centred while it shrinks
+    el.style.transform = `translate(${dx}px, 0) scale(${scale * k})`
+  })
+}
+function paintHero() {
+  // dev only: ?z=3&x=300&y=100 magnifies the hero around a design point for pixel checks
+  const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
+  const z = +(zq?.get('z') || 1), zx = +(zq?.get('x') || 0), zy = +(zq?.get('y') || 0)
+  if (z > 1) { hero.style.transform = `scale(${scale * z}) translate(${PAD - zx}px, ${PAD - zy}px)`; return }
+  const k = shrink[0], dx = (PAD + W / 2) * scale * (1 - k), dy = PAD * scale * (1 - k)
+  hero.style.transform = `translate(${dx}px, ${dy}px) scale(${scale * k}) translate(${PAD}px, ${PAD}px)`
+}
 
 // Scale the whole 1920-wide design to the window width (clientWidth = without the scroll bar).
 function fit() {
@@ -47,11 +75,7 @@ function fit() {
     return
   }
   scale = document.documentElement.clientWidth / (W + 2 * PAD)
-  // dev only: ?z=3&x=300&y=100 magnifies the hero around a design point for pixel checks
-  const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
-  const z = +(zq?.get('z') || 1), zx = +(zq?.get('x') || 0), zy = +(zq?.get('y') || 0)
-  hero.style.transform = z > 1 ? `scale(${scale * z}) translate(${PAD - zx}px, ${PAD - zy}px)` : `scale(${scale}) translate(${PAD}px, ${PAD}px)`
-  secs.slice(1).forEach((el, i) => { el.style.transform = `scale(${scale})`; el.style.left = `${baseX[i + 1] * scale}px` })
+  secs.slice(1).forEach((el, i) => { el.style.left = `${baseX[i + 1] * scale}px` })
   markers.forEach((m, i) => { m.style.top = `${baseY[i] * scale}px` })
   place()
   wrap.style.height = `${(baseY[6] + FTH) * scale}px`
@@ -101,10 +125,22 @@ async function startMotion() {
   })
 
   startSmoothScroll()
+  layerSections()
   revealOnScroll()
 }
-// No section ever slides over another: that hid the white gap and rounded corners of the hero
-// and the green panels while scrolling.
+
+function layerSections() {
+  secs.slice(0, -1).forEach((el, i) => ScrollTrigger.create({
+    trigger: markers[i + 1], start: 'top bottom', end: 'top top', scrub: true,
+    onUpdate: ({ progress: p }) => {
+      if (isMobile()) return
+      if (framed[i]) shrink[i] = 1 - 0.07 * p
+      else lifts[i] = p * innerHeight * 0.32
+      el.style.setProperty('--dim', (p * 0.38).toFixed(3))
+      place()
+    },
+  }))
+}
 
 // Play `anim` each time the point `y` (design px) below a section's top reaches 86% of the window.
 // Desktop uses fixed markers at each section's design position; phones use the element itself.
@@ -185,11 +221,6 @@ function wireControls() {
   })
 
   $$('.arrow').forEach((b) => b.addEventListener('click', () => gsap.fromTo(b, { scale: 0.88 }, { scale: 1, duration: 0.5, ease: 'back.out(3)' })))
-  $$('.card').forEach((c) => {
-    const lift = gsap.to(c, { y: -8, duration: 0.35, ease: 'power3.out', paused: true })
-    c.addEventListener('pointerenter', () => lift.play())
-    c.addEventListener('pointerleave', () => lift.reverse())
-  })
 
   // Selected Work: tabs, arrows and progress bars move together (only the first project has content so far).
   const tabs = $$('#wk-tabs .tab'), bars = $$('#wk-bars i')

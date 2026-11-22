@@ -18,6 +18,8 @@ html.locked { overflow: hidden; }
   :root .j { display: inline !important; text-align: inherit !important; white-space: normal !important; }
   :root .j::after { content: " "; }
   :root .mk { display: none; }
+  :root .sec::after { display: none; }
+  :root #services, :root #work, :root #qa { box-shadow: none; }
 
   /* ---------- Navigation: logo, button, and a menu that opens below ---------- */
   :root #nav { position: relative; left: auto; top: auto; width: auto; height: 56px; margin: 10px 10px 0; z-index: 30; translate: none; }

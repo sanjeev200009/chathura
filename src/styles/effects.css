@@ -55,10 +55,8 @@
 :root .svc:hover, :root .stat:hover, :root .xs:hover, :root .sc:hover, :root .tool-card:hover, :root .pc:hover {
   translate: 0 -6px; box-shadow: 0 22px 40px -24px rgba(5, 30, 24, .35); border-color: #8fb0a9;
 }
-:root .card { transition: box-shadow .4s; }
-:root .card:hover { box-shadow: 0 22px 40px -24px rgba(5, 30, 24, .35); }
 :root .cico, :root .tool-card b, :root .pc b { transition: rotate .5s cubic-bezier(.2,.7,.2,1), scale .5s cubic-bezier(.2,.7,.2,1); }
-:root .card:hover .cico, :root .svc:hover .cico { rotate: -8deg; scale: 1.06; }
+:root .svc:hover .cico { rotate: -8deg; scale: 1.06; }
 :root .tool-card:hover b { rotate: 90deg; }
 :root .pc:hover b { scale: 1.08; }
 

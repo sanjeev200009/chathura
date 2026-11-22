@@ -140,3 +140,8 @@
 
 /* Scroll experience */
 .mk { position: absolute; left: 0; width: 1px; height: 1px; visibility: hidden; pointer-events: none; }
+/* Layered scrolling: a section dims a little as the next one arrives. Only sections that slide
+   over a white one cast a shadow (a shadow on the white gap of a framed section looked dirty). */
+.sec::after { content: ""; position: absolute; inset: 0; background: #050a09; opacity: var(--dim, 0); pointer-events: none; z-index: 40; border-radius: inherit; }
+#services { box-shadow: 0 -34px 70px -12px rgba(8, 20, 18, .16); }
+#work, #qa { box-shadow: 0 -34px 70px -12px rgba(8, 20, 18, .22); }
