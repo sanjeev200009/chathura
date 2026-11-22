@@ -140,6 +140,3 @@
 
 /* Scroll experience */
 .mk { position: absolute; left: 0; width: 1px; height: 1px; visibility: hidden; pointer-events: none; }
-.sec::after { content: ""; position: absolute; inset: 0; background: #050a09; opacity: var(--dim, 0); pointer-events: none; z-index: 40; border-radius: inherit; }
-#about, #services, #expertise, #footer { box-shadow: 0 -34px 70px -12px rgba(8, 20, 18, .16); }
-#work, #qa { box-shadow: 0 -34px 70px -12px rgba(8, 20, 18, .22); }

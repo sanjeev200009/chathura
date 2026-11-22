@@ -16,7 +16,6 @@
   :root p br { display: none; } /* the markup keeps a space before every <br>, so words stay apart */
   :root .j { display: inline !important; text-align: inherit !important; white-space: normal !important; }
   :root .j::after { content: " "; }
-  :root .sec::after { display: none; }
   :root .mk { display: none; }
 
   /* ---------- Navigation: logo, button, and a menu that opens below ---------- */

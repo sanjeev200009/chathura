@@ -28,14 +28,12 @@ const hero = secs[0]
 const heights = [FH + 2 * PAD, AH, SH, WH, EH, QH + FOOTGAP]
 const baseY = heights.reduce((ys, h) => [...ys, ys.at(-1) + h], [0])
 const baseX = [0, 0, 0, 25, 0, 25, 0]
-const lifts = secs.map(() => 0) // px each section is held back while the next one slides over it
-secs.forEach((el) => el.classList.add('sec'))
 // Invisible markers at the true start of each section (they never move), used as scroll triggers.
 const markers = secs.map(() => wrap.appendChild(Object.assign(document.createElement('div'), { className: 'mk' })))
 
 let scale = 1, aurora
 const mobile = isMobile() // phones and tablets: a normal flowing page, no scaling, no layering
-const place = () => { if (!isMobile()) secs.forEach((el, i) => { el.style.top = `${baseY[i] * scale + lifts[i]}px` }) }
+const place = () => { if (!isMobile()) secs.forEach((el, i) => { el.style.top = `${baseY[i] * scale}px` }) }
 
 // Scale the whole 1920-wide design to the window width (clientWidth = without the scroll bar).
 function fit() {
@@ -102,25 +100,13 @@ async function startMotion() {
   })
 
   startSmoothScroll()
-  layerSections()
   revealOnScroll()
 }
-
-// Layering: while the next section slides up, the one under it moves slower and dims a little.
-function layerSections() {
-  secs.slice(0, -1).forEach((el, i) => ScrollTrigger.create({
-    trigger: markers[i + 1], start: 'top bottom', end: 'top top', scrub: true,
-    onUpdate: (self) => {
-      if (isMobile()) return
-      lifts[i] = self.progress * innerHeight * 0.32
-      el.style.setProperty('--dim', (self.progress * 0.38).toFixed(3))
-      place()
-    },
-  }))
-}
+// No section ever slides over another: that hid the white gap and rounded corners of the hero
+// and the green panels while scrolling.
 
 // Play `anim` each time the point `y` (design px) below a section's top reaches 86% of the window.
-// Desktop uses the fixed markers (the sections themselves move while they layer); phones use the element.
+// Desktop uses fixed markers at each section's design position; phones use the element itself.
 const at = (sec, y, anim, el) => replay(anim, mobile
   ? { trigger: el, start: 'top 88%' }
   : { trigger: markers[sec], start: () => `top+=${y * scale} 86%` })
