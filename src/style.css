@@ -3,6 +3,14 @@
 @import "@fontsource/poppins/400.css";
 @import "@fontsource/poppins/500.css";
 @import "@fontsource/poppins/600.css";
+@import "@fontsource/quicksand/300.css";
+@import "@fontsource/quicksand/400.css";
+@import "@fontsource/quicksand/500.css";
+@import "@fontsource/quicksand/700.css";
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
 
 html { overflow-y: scroll; } /* always keep the scroll bar so the width (and the white border) never shifts */
 body { margin: 0; background: #fff; overflow-x: hidden; }
@@ -10,9 +18,9 @@ body { margin: 0; background: #fff; overflow-x: hidden; }
 /* The stage is the Figma frame: 1896 x 1069. main.js scales it to the window width. */
 #hero-wrap { width: 100%; position: relative; }
 #hero {
-  position: absolute; left: 0; top: 0; width: 1896px; height: 1069px;
+  position: absolute; left: 0; top: 0; width: 1896px; height: 1757px;
   transform-origin: 0 0; overflow: hidden; border-radius: 20px;
-  background: #0c1715 url("/hero/bg.webp") 0 0 / 1896px 1069px no-repeat;
+  background: url("/hero/bg.webp") 0 0 / 1896px 1069px no-repeat, url("/hero/panel.png") 0 1069px / 1896px 688px no-repeat, #0c1715;
   font-family: "Poppins", sans-serif; color: #fff; perspective: 1400px;
 }
 #hero > * { position: absolute; }
@@ -58,3 +66,122 @@ body { margin: 0; background: #fff; overflow-x: hidden; }
 }
 
 #overlay { max-width: none; left: -35px; top: -26px; width: 1975px; opacity: .5; pointer-events: none; z-index: 50; }
+
+/* Part 2 of the hero: the dark panel under the first frame (starts at y = 1069). */
+#about-title {
+  left: 0; top: 1238px; width: 1896px; margin: 0; text-align: center; padding: 0 340px; box-sizing: border-box;
+  font: 300 40px/62px "Quicksand", sans-serif; color: #fff;
+}
+#about-text {
+  left: 422px; top: 1381px; width: 1051px; margin: 0; text-align: center;
+  font: 400 21px/34px "Quicksand", sans-serif; color: rgba(255,255,255,.72);
+}
+#about-text strong { font-weight: 700; color: #fff; }
+#about-cta { left: 0; top: 1511px; width: 1896px; display: flex; justify-content: center; gap: 18px; }
+.btn {
+  height: 53px; box-sizing: border-box; border-radius: 999px; text-decoration: none; text-align: center;
+  font: 400 15px/51px "Inter", sans-serif; color: #fff; letter-spacing: .01em;
+}
+.btn.solid { width: 203px; background: #fff; color: #0a0a0a; }
+.btn.line { width: 206px; border: 1px solid rgba(255,255,255,.55); }
+
+/* About Us (design px, 1920 wide; y is relative to the section top) */
+#about { position: absolute; left: 0; width: 1920px; height: 891px; transform-origin: 0 0; background: #fff; font-family: "Inter", sans-serif; color: #0b0f19; }
+#chip, .chip { position: absolute; left: 364px; top: 65px; height: 26px; padding: 0 12px; border-radius: 999px; background: #e9f2f0; display: flex; align-items: center; gap: 9px; font: 600 12px/26px "Inter", sans-serif; letter-spacing: .01em; }
+#ab-title { position: absolute; left: 722px; top: 40px; width: 1000px; margin: 0; font: 400 53px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#ab-text { position: absolute; left: 722px; top: 147px; width: 979px; }
+#ab-text p { margin: 0 0 30px; font: 300 17.4px/30px "Inter", sans-serif; color: #747e90; text-align: justify; hyphens: none; }
+#acc { position: absolute; left: 722px; top: 467px; width: 734px; border-top: 1px solid #f1f1f5; }
+#acc .row { position: relative; border-bottom: 1px solid #f1f1f5; }
+#acc .row:first-child { padding-top: 19px; }
+#acc .num { position: absolute; left: 0; top: 20px; font: 600 12px/16px "Inter", sans-serif; }
+#acc .row:first-child .num { top: 39px; }
+#acc h3 { margin: 0; padding-left: 167px; font: 400 26px/72px "Inter", sans-serif; letter-spacing: -.035em; }
+#acc .ico { position: absolute; left: 882px; top: 24px; width: 25px; height: 25px; border-radius: 50%; background: #0a0a0a; cursor: pointer; }
+#acc .row:first-child .ico { top: 43px; }
+#acc .ico::before, #acc .ico::after { content: ""; position: absolute; left: 7px; top: 12px; width: 11px; height: 1.5px; background: #fff; }
+#acc .ico::after { transform: rotate(90deg); transition: transform .3s; }
+#acc .row.open .ico::after { transform: rotate(0deg); }
+#acc .desc { height: 0; overflow: hidden; }
+#acc .open .desc { height: auto; }
+#acc .desc p { margin: 0 0 22px 167px; white-space: nowrap; font: 300 18px/28px "Inter", sans-serif; color: #747e90; }
+
+/* My Services (design px; y relative to the section top) */
+#services { position: absolute; left: 0; width: 1920px; height: 961px; transform-origin: 0 0; background: #fff; font-family: "Inter", sans-serif; color: #0b0f19; }
+#sv-chip { left: 176px; top: 47px; }
+#sv-title { position: absolute; left: 176px; top: 127px; margin: 0; font: 400 53px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#sv-text { position: absolute; left: 176px; top: 217px; width: 870px; margin: 0; font: 300 17.4px/30px "Inter", sans-serif; color: #747e90; }
+#sv-text .j { display: block; text-align: justify; text-align-last: justify; }
+.arrow { position: absolute; top: 214px; width: 64px; height: 64px; border: 0; border-radius: 50%; background: #e9f2f0; display: grid; place-items: center; cursor: pointer; }
+#sv-prev { left: 1597px; } #sv-next { left: 1679px; }
+#sv-line { position: absolute; left: 176px; top: 322px; width: 1566px; height: 1px; background: #f0f1f5; }
+.card { position: absolute; top: 389px; width: 508px; height: 500px; border-radius: 28px; background: #e9f1f0; }
+.card .cico { position: absolute; left: 36px; top: 36px; }
+.card h3 { position: absolute; left: 32px; top: 269px; margin: 0; font: 400 26.5px/36px "Inter", sans-serif; letter-spacing: -.035em; }
+.card p { position: absolute; left: 32px; top: 315px; margin: 0; width: 460px; font: 300 15.4px/24px "Inter", sans-serif; color: #747e90; white-space: nowrap; }
+.gbtn { position: absolute; left: 32px; top: 393px; width: 197px; height: 55px; box-sizing: border-box; border-radius: 999px; border: 1px solid #b2c1be; background: #fff; color: #0a0a0a; text-decoration: none; text-align: center; font: 500 13.4px/53px "Inter", sans-serif; transition: background .25s, color .25s, border-color .25s; }
+.gbtn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+
+/* Selected Work: green panel, 1896 wide, inset 12px (design px; coordinates relative to the panel) */
+#work { position: absolute; left: 0; width: 1870px; height: 1227px; transform-origin: 0 0; border-radius: 28px; background: #5f817d; font-family: "Inter", sans-serif; color: #fff; overflow: hidden; }
+#wk-chip { position: absolute; left: 164px; top: 135px; height: 34px; padding: 0 16px; border-radius: 999px; background: #e0e5eb; color: #0b0f19; display: flex; align-items: center; gap: 9px; font: 600 13px/34px "Inter", sans-serif; }
+#wk-title { position: absolute; left: 164px; top: 221px; margin: 0; font: 400 53px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#wk-tabs { position: absolute; left: 164px; top: 365px; display: flex; gap: 23px; }
+.tab { height: 56px; padding: 0; text-align: center; border: 0; border-radius: 999px; background: rgba(255,255,255,.4); color: #36504c; font: 400 12.5px/56px "Inter", sans-serif; cursor: pointer; transition: background .3s, color .3s; }
+.tab.on { background: #fff; color: #0a0a0a; font: 500 11.5px/56px "Inter", sans-serif; }
+.wk-arrow { top: 360px; width: 66px; height: 66px; background: #fff; }
+#wk-prev { left: 1537px; } #wk-next { left: 1618px; }
+#wk-bars { position: absolute; left: 164px; top: 477px; display: flex; gap: 8px; }
+#wk-bars i { display: block; width: 379px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.4); overflow: hidden; }
+#wk-bars i.on { background: #fff; }
+#wk-img { position: absolute; left: 164px; top: 571px; width: 678px; height: 503px; border-radius: 28px; border: 1px solid #111; box-sizing: border-box; object-fit: cover; }
+#wk-info { position: absolute; left: 964px; top: 0; width: 760px; height: 1227px; }
+#wk-info h3 { position: absolute; left: 0; top: 637px; margin: 0; font: 400 49px/48px "Inter", sans-serif; letter-spacing: -.04em; white-space: nowrap; }
+#wk-info h4 { position: absolute; left: 0; top: 701px; margin: 0; font: 300 33px/36px "Inter", sans-serif; letter-spacing: -.02em; color: rgba(255,255,255,.88); white-space: nowrap; }
+#wk-info p { position: absolute; left: 0; top: 776px; width: 690px; margin: 0; font: 300 17px/30px "Inter", sans-serif; color: rgba(255,255,255,.72); }
+#wk-info .j { display: block; text-align: justify; text-align-last: justify; white-space: nowrap; }
+.wbtn { position: absolute; left: 0; top: 961px; width: 198px; height: 56px; border-radius: 999px; background: #fff; color: #0a0a0a; text-decoration: none; text-align: center; font: 500 13.4px/56px "Inter", sans-serif; }
+
+.tab:nth-child(1) { width: 214px; } .tab:nth-child(2) { width: 239px; } .tab:nth-child(3) { width: 170px; } .tab:nth-child(4) { width: 150px; }
+
+/* Our Expertise (stage px; y from the bottom of the green Selected Work panel) */
+.chip-grey { background: #dfe3ea; color: #0b0f19; }
+.chip-dark { background: #7f879f; color: #fff; }
+#expertise { position: absolute; left: 0; width: 1920px; height: 810px; transform-origin: 0 0; background: #fff; font-family: "Inter", sans-serif; color: #0b0f19; }
+#ex-chip { left: 362px; top: 155px; height: 30px; padding: 0 14px; font-size: 12px; line-height: 30px; }
+#ex-title { position: absolute; left: 365px; top: 242px; margin: 0; font: 400 52.5px/65px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+.stat { position: absolute; top: 422px; width: 455px; height: 202px; box-sizing: border-box; border: 1px solid #b8cdc8; border-radius: 16px; background: #e9f1f0; }
+.stat h3 { position: absolute; left: 49px; top: 54px; margin: 0; font: 400 32px/42px "Inter", sans-serif; letter-spacing: -.03em; }
+.stat p { position: absolute; left: 49px; top: 119px; margin: 0; font: 300 17.4px/26px "Inter", sans-serif; color: #8c97a8; white-space: nowrap; }
+
+/* Q&A (green panel, 1870 wide) */
+#qa { position: absolute; left: 0; width: 1870px; height: 955px; transform-origin: 0 0; border-radius: 28px; background: #5f817d; overflow: hidden; font-family: "Inter", sans-serif; color: #fff; }
+#qa-mark { position: absolute; left: 0; width: 1870px; top: -60px; text-align: center; font: 600 250px/300px "Inter", sans-serif; letter-spacing: .08em; color: rgba(255,255,255,.07); white-space: nowrap; }
+#qa-chip { left: 820px; top: 240px; height: 30px; padding: 0 14px; font-size: 11px; line-height: 30px; }
+#qa-title { position: absolute; left: 0; width: 1870px; top: 300px; margin: 0; text-align: center; font: 400 52.8px/65px "Inter", sans-serif; letter-spacing: -.04em; }
+#qa-line { position: absolute; left: 327px; top: 475px; width: 1190px; height: 1px; background: rgba(255,255,255,.3); }
+.faq { position: absolute; width: 592px; height: 85px; box-sizing: border-box; border-radius: 12px; background: #e9f1f0; color: #0a0a0a; cursor: pointer; transition: transform .25s; }
+.faq:hover { transform: translateY(-3px); }
+.faq span { position: absolute; left: 32px; top: 0; font: 400 16.6px/85px "Inter", sans-serif; }
+.faq i { position: absolute; right: 30px; top: 30px; width: 25px; height: 25px; border-radius: 50%; background: #5f817d; }
+.faq i::before { content: ""; position: absolute; left: 7px; top: 12px; width: 11px; height: 1.6px; background: #fff; }
+
+/* Footer: dark panel (full width, rounded top) + a white base strip. Design px. */
+#footer { position: absolute; left: 0; width: 1920px; height: 536px; transform-origin: 0 0; background: #fff; font-family: "Inter", sans-serif; color: #fff; }
+#footer::before { content: ""; position: absolute; left: 0; top: 0; width: 1920px; height: 471px; border-radius: 28px 28px 0 0; background: #0c1715; }
+#footer > * { position: absolute; }
+#ft-title { left: 0; width: 1920px; top: 95px; margin: 0; text-align: center; font: 300 53px/76px "Inter", sans-serif; letter-spacing: -.045em; }
+#ft-text { left: 0; width: 1920px; top: 182px; margin: 0; text-align: center; font: 300 15.6px/23px "Inter", sans-serif; color: rgba(255,255,255,.72); }
+#ft-mail { left: 829px; top: 275px; width: 265px; height: 45px; border-radius: 999px; background: #fff; color: #0a0a0a; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; font: 400 14px/1 "Inter", sans-serif; box-sizing: border-box; }
+#ft-links { left: 0; width: 1920px; top: 355px; display: flex; justify-content: center; gap: 31px; }
+#ft-links a { display: flex; align-items: center; gap: 9px; color: rgba(255,255,255,.88); text-decoration: none; font: 400 13px/20px "Inter", sans-serif; }
+#ft-links a:hover { color: #fff; }
+#ft-base { left: 178px; width: 1564px; top: 471px; height: 65px; display: flex; align-items: center; justify-content: space-between; font: 300 14px/1 "Inter", sans-serif; color: #8c93a0; }
+
+/* Scroll experience */
+.mk { position: absolute; left: 0; width: 1px; height: 1px; visibility: hidden; pointer-events: none; }
+.sec::after { content: ""; position: absolute; inset: 0; background: #050a09; opacity: var(--dim, 0); pointer-events: none; z-index: 40; border-radius: inherit; }
+#about, #services, #expertise, #footer { box-shadow: 0 -34px 70px -12px rgba(8, 20, 18, .16); }
+#work, #qa { box-shadow: 0 -34px 70px -12px rgba(8, 20, 18, .22); }
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+#progress { position: fixed; left: 0; top: 0; width: 100%; height: 3px; background: #1fb88a; transform: scaleX(0); transform-origin: 0 50%; z-index: 100; pointer-events: none; }

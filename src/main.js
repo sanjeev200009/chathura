@@ -4,23 +4,54 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const W = 1896, H = 1069, PAD = 6 // white border around the hero, in design px
+const W = 1896, H = 1069, FH = 1757, PAD = 12 // white border around the hero, in design px
+const AH = 891, SH = 961, WH = 1227, EH = 810, QH = 955, FOOTGAP = 123, FTH = 536
 const wrap = document.querySelector('#hero-wrap')
 const hero = document.querySelector('#hero')
+const about = document.querySelector('#about')
+const services = document.querySelector('#services')
+const work = document.querySelector('#work')
+const expertise = document.querySelector('#expertise')
+const qa = document.querySelector('#qa')
+const footer = document.querySelector('#footer')
 let fx
 const mouse = { x: 0.5, y: 0.5, sx: 0.5, sy: 0.5 }
 
-// Scale the whole 1896 x 1069 frame to the window width (pixel-proportional).
+// The sections, top to bottom, with where each one starts (design px) and how far it is inset.
+const secs = [hero, about, services, work, expertise, qa, footer]
+const baseY = [0, FH + 2 * PAD, FH + 2 * PAD + AH, FH + 2 * PAD + AH + SH, FH + 2 * PAD + AH + SH + WH, FH + 2 * PAD + AH + SH + WH + EH, FH + 2 * PAD + AH + SH + WH + EH + QH + FOOTGAP]
+const baseX = [0, 0, 0, 25, 0, 25, 0]
+const lifts = secs.map(() => 0) // px each section is held back while the next one slides over it
+secs.forEach((el) => el.classList.add('sec'))
+// Invisible markers at the true start of each section (they never move), used as scroll triggers.
+const markers = secs.map(() => {
+  const m = document.createElement('div')
+  m.className = 'mk'
+  wrap.appendChild(m)
+  return m
+})
+let S = 1
+const getS = () => S
+
+function place() {
+  secs.forEach((el, i) => { el.style.top = `${baseY[i] * S + lifts[i]}px` })
+}
+
+// Scale the whole 1920-wide design to the window width (pixel-proportional).
 function fit() {
-  const s = document.documentElement.clientWidth / (W + 2 * PAD) // clientWidth = without the scroll bar // the white page frame is 1896 + 6px each side
+  S = document.documentElement.clientWidth / (W + 2 * PAD) // clientWidth = without the scroll bar
   // dev only: ?z=3&x=300&y=100 magnifies the frame around a design point for pixel checks
   const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
   const z = +(zq?.get('z') || 1), zx = +(zq?.get('x') || 0), zy = +(zq?.get('y') || 0)
   hero.style.transform = z > 1
-    ? `scale(${s * z}) translate(${PAD - zx}px, ${PAD - zy}px)`
-    : `scale(${s}) translate(${PAD}px, ${PAD}px)`
-  wrap.style.height = `${(H + 2 * PAD) * s}px`
-  fx?.resize(s)
+    ? `scale(${S * z}) translate(${PAD - zx}px, ${PAD - zy}px)`
+    : `scale(${S}) translate(${PAD}px, ${PAD}px)`
+  secs.slice(1).forEach((el) => { el.style.transform = `scale(${S})` })
+  secs.forEach((el, i) => { if (i) el.style.left = `${baseX[i] * S}px` })
+  markers.forEach((m, i) => { m.style.top = `${baseY[i] * S}px` })
+  place()
+  wrap.style.height = `${(baseY[6] + FTH) * S}px`
+  fx?.resize(S)
   ScrollTrigger.refresh()
 }
 addEventListener('resize', fit)
@@ -51,11 +82,9 @@ if (!still) {
   })
 
   // Scroll: portrait and icons drift at different speeds.
-  gsap.to('#portrait', { y: -40, ease: 'none', scrollTrigger: { trigger: wrap, start: 'top top', end: 'bottom top', scrub: 1 } })
-  gsap.to('.tool', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: wrap, start: 'top top', end: 'bottom top', scrub: 1.4 } })
-}
+  gsap.to('#portrait', { y: -40, ease: 'none', scrollTrigger: { trigger: markers[0], start: 'top top', end: () => `+=${FH * S}`, scrub: 1 } })
+  gsap.to('.tool', { yPercent: -18, ease: 'none', scrollTrigger: { trigger: markers[0], start: 'top top', end: () => `+=${FH * S}`, scrub: 1.4 } })
 
-if (!still) {
   // Premium layer (Three.js): aurora light, particles, cursor light.
   const { startFx } = await import('./fx.js')
   fx = startFx(document.querySelector('#fx'), W, H, mouse)
@@ -71,6 +100,10 @@ if (!still) {
     tx('#portrait', dx * 30, dx * 3)
     document.querySelectorAll('.tool').forEach((el, i) => tx(el, dx * (46 + i * 8), dx * 22, -dy * 16))
   })
+
+  // Smooth scrolling, layered sections and one-by-one reveals.
+  const { startScroll } = await import('./scroll.js')
+  startScroll({ secs, lifts, place, markers, getS })
 }
 const quick = new Map()
 function tx(target, x, ry = 0, rx = 0) {
@@ -78,4 +111,46 @@ function tx(target, x, ry = 0, rx = 0) {
   if (!quick.has(el)) quick.set(el, { x: gsap.quickTo(el, 'x', { duration: 0.9, ease: 'power3.out' }), ry: gsap.quickTo(el, 'rotationY', { duration: 0.9, ease: 'power3.out' }), rx: gsap.quickTo(el, 'rotationX', { duration: 0.9, ease: 'power3.out' }) })
   const q = quick.get(el)
   q.x(x); q.ry(ry); q.rx(rx)
+}
+
+// Accordion: click a plus to open its text (only items with text open).
+document.querySelectorAll('#acc .row').forEach((row) => {
+  const desc = row.querySelector('.desc')
+  if (!desc) return
+  row.querySelector('.ico').addEventListener('click', () => {
+    const open = row.classList.contains('open')
+    document.querySelectorAll('#acc .row.open').forEach((r) => {
+      r.classList.remove('open')
+      gsap.to(r.querySelector('.desc'), { height: 0, duration: 0.45, ease: 'power3.inOut' })
+    })
+    if (!open) {
+      row.classList.add('open')
+      gsap.fromTo(desc, { height: 0 }, { height: 'auto', duration: 0.5, ease: 'power3.out' })
+    }
+    setTimeout(() => ScrollTrigger.refresh(), 600)
+  })
+})
+
+document.querySelectorAll('.arrow').forEach((b) => b.addEventListener('click', () => gsap.fromTo(b, { scale: 0.88 }, { scale: 1, duration: 0.5, ease: 'back.out(3)' })))
+document.querySelectorAll('.card').forEach((c) => {
+  const lift = gsap.to(c, { y: -8, duration: 0.35, ease: 'power3.out', paused: true })
+  c.addEventListener('pointerenter', () => lift.play())
+  c.addEventListener('pointerleave', () => lift.reverse())
+})
+
+// Selected Work: tabs, arrows and progress bars move together (only the first project has content so far).
+{
+  const tabs = [...document.querySelectorAll('#wk-tabs .tab')], bars = [...document.querySelectorAll('#wk-bars i')]
+  let cur = 0
+  const show = (i) => {
+    cur = (i + tabs.length) % tabs.length
+    tabs.forEach((t, k) => {
+      t.classList.toggle('on', k === cur)
+    })
+    bars.forEach((b, k) => b.classList.toggle('on', k === cur))
+    gsap.fromTo('#wk-img, #wk-info', { opacity: 0.3, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+  }
+  tabs.forEach((t, k) => t.addEventListener('click', () => show(k)))
+  document.querySelector('#wk-prev').addEventListener('click', () => show(cur - 1))
+  document.querySelector('#wk-next').addEventListener('click', () => show(cur + 1))
 }
