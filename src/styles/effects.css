@@ -1,0 +1,95 @@
+/* Small, quiet interactions for the whole site: hover lifts, underlines, icon turns, and
+   photos that are black and white until you point at them.
+   Hover moves use the `translate` / `scale` / `rotate` properties, not `transform`, so they add to
+   the transforms GSAP writes on the same elements instead of being overwritten by them.
+   `:root` raises these above the page styles whatever order the files load in. */
+
+/* Typing */
+:root #hero-title .line { height: 135px; white-space: nowrap; }
+:root .hero-caret { display: inline-block; width: .07em; height: .78em; margin-left: .06em; vertical-align: -.02em; background: #c8f21d; animation: blink 1s steps(1) infinite; }
+:root .tw { display: inline-block; white-space: nowrap; }
+:root .caret { box-shadow: 2px 0 0 #c8f21d; }
+:root .caret:last-child { animation: blink-shadow 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes blink-shadow { 50% { box-shadow: none; } }
+
+/* Photos: grey until hovered, then the colour fades in (touch screens always show colour). */
+:root #portrait, :root #st-photo img, :root #wk-img, :root .pj-img, :root #fd-img {
+  filter: grayscale(1); transition: filter .7s ease, scale .7s cubic-bezier(.2,.7,.2,1);
+}
+:root #portrait:hover, :root #st-photo:hover img, :root #wk-img:hover, :root .pj-img:hover, :root #fd-img:hover { filter: grayscale(0); }
+:root #st-photo:hover img, :root #wk-img:hover, :root .pj-img:hover { scale: 1.02; }
+@media (hover: none) {
+  :root #portrait, :root #st-photo img, :root #wk-img, :root .pj-img, :root #fd-img { filter: none; }
+}
+
+/* Navigation: links get a thin line that grows from the left; the logo and button respond too. */
+:root #nav li a {
+  padding-bottom: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: color .25s, background-size .35s cubic-bezier(.2,.7,.2,1);
+}
+:root #nav li a:hover { color: #fff; background-size: 100% 1px; }
+:root #logo { transition: opacity .25s; }
+:root #logo:hover { opacity: .75; }
+
+/* Buttons and pills: a 2px lift and a soft shadow. */
+:root #cta, :root .btn, :root .abtn, :root .gbtn, :root .wbtn, :root #ft-mail, :root #ct-mail, :root #pd-back, :root .pf, :root .tab {
+  transition: translate .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, background .25s, color .25s, border-color .25s;
+}
+:root #cta:hover, :root .btn:hover, :root .abtn:hover, :root .gbtn:hover, :root .wbtn:hover, :root #ft-mail:hover, :root #ct-mail:hover, :root #pd-back:hover, :root .pf:hover, :root .tab:hover {
+  translate: 0 -2px; box-shadow: 0 10px 24px -12px rgba(5, 20, 16, .45);
+}
+:root .btn.line:hover { background: rgba(255,255,255,.1); }
+:root .tab:not(.on):hover { background: rgba(255,255,255,.6); }
+:root #ft-mail svg, :root #ct-mail svg { transition: translate .3s; }
+:root #ft-mail:hover svg { translate: 3px 0; }
+:root #ct-mail:hover svg { translate: 2px -2px; }
+:root .arrow { transition: scale .3s cubic-bezier(.2,.7,.2,1), background .25s; }
+:root .arrow:hover { scale: 1.06; background: #d6e6e2; }
+:root .wk-arrow:hover { background: #f1f6f5; }
+
+/* Cards: a gentle lift; their icon turns a little. */
+:root .svc, :root .stat, :root .xs, :root .sc, :root .tool-card, :root .pc {
+  transition: translate .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .3s;
+}
+:root .svc:hover, :root .stat:hover, :root .xs:hover, :root .sc:hover, :root .tool-card:hover, :root .pc:hover {
+  translate: 0 -6px; box-shadow: 0 22px 40px -24px rgba(5, 30, 24, .35); border-color: #8fb0a9;
+}
+:root .card { transition: box-shadow .4s; }
+:root .card:hover { box-shadow: 0 22px 40px -24px rgba(5, 30, 24, .35); }
+:root .cico, :root .tool-card b, :root .pc b { transition: rotate .5s cubic-bezier(.2,.7,.2,1), scale .5s cubic-bezier(.2,.7,.2,1); }
+:root .card:hover .cico, :root .svc:hover .cico { rotate: -8deg; scale: 1.06; }
+:root .tool-card:hover b { rotate: 90deg; }
+:root .pc:hover b { scale: 1.08; }
+
+/* Rows (accordion, process, skills, overview): the title slides a little and the plus turns. */
+:root #acc h3, :root .prow h3 { transition: translate .35s cubic-bezier(.2,.7,.2,1); }
+:root #acc .row:hover h3, :root .prow:hover h3 { translate: 6px 0; }
+:root .pico, :root #acc .ico { transition: rotate .4s cubic-bezier(.2,.7,.2,1), background .25s; }
+:root .prow:hover .pico { rotate: 90deg; background: #1f5a4c; }
+:root #acc .ico:hover { background: #1f5a4c; }
+
+/* Questions */
+:root .faq, :root .fqr { transition: translate .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, background .25s; }
+:root .faq:hover, :root .fqr:hover { transform: none; translate: 0 -3px; background: #fff; box-shadow: 0 14px 30px -18px rgba(5, 20, 16, .5); }
+:root .faq i, :root .fqr i { transition: rotate .4s cubic-bezier(.2,.7,.2,1); }
+:root .faq:hover i, :root .fqr:hover i { rotate: 90deg; }
+
+/* Footer links */
+:root #ft-links a, :root #ct-links a { transition: color .25s, translate .3s; }
+:root #ft-links a:hover, :root #ct-links a:hover { translate: 0 -2px; }
+:root #ft-links svg { transition: scale .3s; }
+:root #ft-links a:hover svg { scale: 1.12; }
+
+/* Tool icons in the hero respond to the pointer */
+:root .tool { transition: scale .35s cubic-bezier(.2,.7,.2,1); }
+:root .tool:hover { scale: 1.08; }
+:root #expert { transition: scale .3s; }
+:root #expert:hover { scale: 1.08; }
+
+/* Keyboard focus stays visible everywhere */
+:root a:focus-visible, :root button:focus-visible { outline: 2px solid #1fb88a; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root *, :root *::before, :root *::after { transition-duration: .01ms !important; animation: none !important; }
+}

@@ -16,6 +16,7 @@ export const nav = (active = '', { logoHref = '/', ctaHref = '#contact' } = {}) 
       ${NAV.map((n) => `<li><a${n.key === active ? ' class="on"' : ''} href="${n.href}">${n.label}</a></li>`).join('\n      ')}
     </ul>
     <a id="cta" href="${ctaHref}">GET IN TOUCH</a>
+    <button id="menu" type="button" aria-label="Menu" aria-expanded="false"><i></i><i></i></button>
   </nav>`
 
 // Numbered rows with a title, one line of text and a plus button (process lists, skills, overview).

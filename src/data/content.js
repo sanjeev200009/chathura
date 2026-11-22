@@ -78,3 +78,10 @@ export const PROJECTS = [
   { cat: 'graphic', label: 'GRAPHIC DESIGN', title: 'Brand Identity Project', kind: 'Graphic Design', text: 'Project description goes here: the challenge, the approach, and the<br />result in two or three lines.', image: '', href: '#' },
   { cat: 'saas', label: 'SAAS DESIGN', title: 'SaaS Dashboard Design', kind: 'SaaS Design', text: 'Project description goes here: the challenge, the approach, and the<br />result in two or three lines.', image: '', href: '#' },
 ]
+
+// The hero title types these one after another, two lines each.
+export const HERO_PHRASES = [
+  ['FREELANCE', 'CREATIVE DESIGNER'],
+  ['DIGITAL', 'PRODUCT DESIGNER'],
+  ['MODERN', 'UI/UX DESIGNER'],
+]

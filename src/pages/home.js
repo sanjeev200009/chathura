@@ -1,9 +1,15 @@
 import '../styles/base.css'
 import '../styles/home.css'
+import '../styles/effects.css'
+import '../styles/responsive.css'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { still, startSmoothScroll } from '../motion/smoothScroll.js'
 import { split } from '../motion/split.js'
+import { replay } from '../motion/reveal.js'
+import { typeText, typeCycle } from '../motion/typing.js'
+import { isMobile, wireMenu, spaceBreaks } from '../core/layout.js'
+import { HERO_PHRASES } from '../data/content.js'
 import { homeFooter } from '../components/ui.js'
 import * as S from '../sections/home.js'
 
@@ -12,7 +18,7 @@ const W = 1896, H = 1069, FH = 1757, PAD = 12
 const AH = 891, SH = 961, WH = 1227, EH = 810, QH = 955, FOOTGAP = 123, FTH = 536
 
 const wrap = document.querySelector('#hero-wrap')
-wrap.innerHTML = S.hero() + S.about() + S.services() + S.work() + S.expertise() + S.qa() + homeFooter()
+wrap.innerHTML = spaceBreaks(S.hero() + S.about() + S.services() + S.work() + S.expertise() + S.qa() + homeFooter())
 const $ = (sel) => wrap.querySelector(sel)
 const $$ = (sel) => [...wrap.querySelectorAll(sel)]
 
@@ -28,10 +34,19 @@ secs.forEach((el) => el.classList.add('sec'))
 const markers = secs.map(() => wrap.appendChild(Object.assign(document.createElement('div'), { className: 'mk' })))
 
 let scale = 1, aurora
-const place = () => secs.forEach((el, i) => { el.style.top = `${baseY[i] * scale + lifts[i]}px` })
+const mobile = isMobile() // phones and tablets: a normal flowing page, no scaling, no layering
+const place = () => { if (!isMobile()) secs.forEach((el, i) => { el.style.top = `${baseY[i] * scale + lifts[i]}px` }) }
 
 // Scale the whole 1920-wide design to the window width (clientWidth = without the scroll bar).
 function fit() {
+  if (isMobile()) {
+    scale = document.documentElement.clientWidth / W
+    secs.forEach((el) => { el.style.transform = el.style.top = el.style.left = '' })
+    wrap.style.height = ''
+    aurora?.resize(scale)
+    ScrollTrigger.refresh()
+    return
+  }
   scale = document.documentElement.clientWidth / (W + 2 * PAD)
   // dev only: ?z=3&x=300&y=100 magnifies the hero around a design point for pixel checks
   const zq = import.meta.env.DEV ? new URLSearchParams(location.search) : null
@@ -54,18 +69,19 @@ if (import.meta.env.DEV && new URLSearchParams(location.search).has('overlay')) 
 }
 
 async function startMotion() {
-  // Opening: nav, title lines, portrait, then the tool icons pop in.
+  // Opening: nav, the title starts typing, portrait, then the tool icons pop in.
+  typeCycle($$('#hero-title .line > span'), HERO_PHRASES, { delay: 0.4 })
   gsap.timeline({ defaults: { ease: 'power3.out' } })
     .from('#nav', { y: -40, opacity: 0, duration: 0.8 })
-    .from('#hero-title .line > span', { yPercent: 110, duration: 1, stagger: 0.12 }, 0.1)
     .from('#portrait', { y: 60, opacity: 0, duration: 1 }, 0.3)
     .from('.tool', { scale: 0.4, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'back.out(1.8)' }, 0.7)
     .from('#expert, #cursor', { scale: 0, opacity: 0, duration: 0.5, transformOrigin: '0 100%', ease: 'back.out(2)' }, 1.1)
   $$('.tool').forEach((el, i) => gsap.to(el, { y: i % 2 ? 10 : -10, duration: 2.4 + i * 0.3, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 1.5 }))
 
-  // Scroll: portrait and icons drift at different speeds.
-  const heroScroll = (scrub) => ({ trigger: markers[0], start: 'top top', end: () => `+=${FH * scale}`, scrub })
-  gsap.to('#portrait', { y: -40, ease: 'none', scrollTrigger: heroScroll(1) })
+  // Scroll: portrait and icons drift at different speeds. yPercent, not y: y belongs to the intro,
+  // and sharing it made the portrait come back 60px low (the "drop") after scrolling up.
+  const heroScroll = (scrub) => ({ trigger: markers[0], start: 'top top', end: () => `+=${mobile ? hero.offsetHeight : FH * scale}`, scrub })
+  gsap.to('#portrait', { yPercent: -5, ease: 'none', scrollTrigger: heroScroll(1) })
   gsap.to('.tool', { yPercent: -18, ease: 'none', scrollTrigger: heroScroll(1.4) })
 
   // Three.js layer, loaded after first paint: aurora light, particles, cursor light.
@@ -95,6 +111,7 @@ function layerSections() {
   secs.slice(0, -1).forEach((el, i) => ScrollTrigger.create({
     trigger: markers[i + 1], start: 'top bottom', end: 'top top', scrub: true,
     onUpdate: (self) => {
+      if (isMobile()) return
       lifts[i] = self.progress * innerHeight * 0.32
       el.style.setProperty('--dim', (self.progress * 0.38).toFixed(3))
       place()
@@ -102,16 +119,22 @@ function layerSections() {
   }))
 }
 
-// Play once when the point `y` (design px) below a section's top reaches 86% of the window.
-const at = (sec, y, play) => ScrollTrigger.create({ trigger: markers[sec], start: () => `top+=${y * scale} 86%`, once: true, onEnter: play })
+// Play `anim` each time the point `y` (design px) below a section's top reaches 86% of the window.
+// Desktop uses the fixed markers (the sections themselves move while they layer); phones use the element.
+const at = (sec, y, anim, el) => replay(anim, mobile
+  ? { trigger: el, start: 'top 88%' }
+  : { trigger: markers[sec], start: () => `top+=${y * scale} 86%` })
 
 function revealOnScroll() {
+  // The big line under the hero types itself out, every time it comes back into view.
+  at(0, 1180, typeText($('#about-title')), $('#about-title'))
+
   // Headings: each word rises out of a mask. selector: [section, design y]
-  const HEADS = { '#about-title': [0, 1180], '#ab-title': [1, 20], '#sv-title': [2, 110], '#wk-title': [3, 190], '#ex-title': [4, 230], '#qa-title': [5, 290], '#ft-title': [6, 80] }
+  const HEADS = { '#ab-title': [1, 20], '#sv-title': [2, 110], '#wk-title': [3, 190], '#ex-title': [4, 230], '#qa-title': [5, 290], '#ft-title': [6, 80] }
   Object.entries(HEADS).forEach(([sel, [sec, y]]) => {
     const words = split($(sel))
-    gsap.set(words, { yPercent: 115 })
-    at(sec, y, () => gsap.to(words, { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: 0.07 }))
+    const tl = gsap.timeline({ paused: true }).fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: 0.07 })
+    at(sec, y, tl, $(sel))
   })
 
   // Everything else arrives in small groups, in order. Built paused so the hidden state is set at once.
@@ -138,9 +161,9 @@ function revealOnScroll() {
   ]
   GROUPS.forEach(([sec, y, targets, vars]) => {
     const tw = gsap.from(targets, { opacity: vars.opacity ?? 0, duration: 0.9, ease: 'power3.out', ...vars, paused: true })
-    at(sec, y, () => tw.play())
+    at(sec, y, tw, $(targets.split(',')[0]))
   })
-  gsap.from('#qa-mark', { opacity: 0, yPercent: 14, duration: 1.8, ease: 'power3.out', scrollTrigger: { trigger: markers[5], start: 'top 70%', once: true } })
+  gsap.from('#qa-mark', { opacity: 0, yPercent: 14, duration: 1.8, ease: 'power3.out', scrollTrigger: { trigger: mobile ? secs[5] : markers[5], start: 'top 70%', toggleActions: 'play none none reverse' } })
 }
 
 // Smoothly move an element toward x / rotationY / rotationX (one quickTo set per element).
@@ -151,6 +174,7 @@ function follow(el, x, ry = 0, rx = 0) {
 }
 
 function wireControls() {
+  wireMenu()
   // Accordion: click a plus to open its text (only items with text open).
   $$('#acc .row').forEach((row) => {
     const desc = row.querySelector('.desc')

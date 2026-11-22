@@ -2,9 +2,9 @@ import '../styles/base.css'
 import '../styles/page.css'
 import '../styles/work.css'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { mountPage } from '../core/innerPage.js'
 import { still } from '../motion/smoothScroll.js'
+import { replay } from '../motion/reveal.js'
 import { pageHero, chip, contactFooter } from '../components/ui.js'
 import { PROJECTS } from '../data/content.js'
 
@@ -100,6 +100,6 @@ if (!still) {
       .from(p.querySelectorAll('.pj-chip, .pj-count'), { y: 16, opacity: 0, duration: 0.6, stagger: 0.08 }, 0.3)
       .from(p.querySelector('.pj-img, .pj-ph'), { clipPath: 'inset(0 0 100% 0 round 20px)', duration: 1.2, ease: 'power4.inOut' }, 0.35)
       .from(p.querySelectorAll('.pj-info > *'), { y: 30, opacity: 0, duration: 0.8, stagger: 0.1 }, 0.6)
-    ScrollTrigger.create({ trigger: p, start: 'top 85%', once: true, onEnter: () => tl.play() })
+    replay(tl, { trigger: p, start: 'top 85%' })
   })
 }

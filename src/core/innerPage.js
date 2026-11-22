@@ -4,6 +4,9 @@ import { still, startSmoothScroll } from '../motion/smoothScroll.js'
 import { split } from '../motion/split.js'
 import { revealWords, revealGroup } from '../motion/reveal.js'
 import { startAurora } from '../three/aurora.js'
+import { isMobile, wireMenu, spaceBreaks } from './layout.js'
+import '../styles/effects.css'
+import '../styles/responsive.css'
 
 const DESIGN_W = 1920
 const HERO = { w: 1896, h: 638 }
@@ -13,23 +16,30 @@ const HERO = { w: 1896, h: 638 }
 // `height` may be a number or a function (pages whose length changes, e.g. after filtering).
 export function mountPage({ html, height, headings = [], groups = [] }) {
   const wrap = document.querySelector('#hero-wrap')
-  wrap.innerHTML = `<div id="page">${html}</div>`
+  wrap.innerHTML = `<div id="page">${spaceBreaks(html)}</div>`
   const page = wrap.querySelector('#page')
   const heightOf = () => (typeof height === 'function' ? height() : height)
   let scale = 1
   let aurora
 
+  // Desktop: the design scaled to the window. Phones and tablets: a normal flowing page.
   const fit = () => {
-    const h = heightOf()
-    scale = document.documentElement.clientWidth / DESIGN_W
-    page.style.height = `${h}px`
-    page.style.transform = `scale(${scale})`
-    wrap.style.height = `${h * scale}px`
+    if (isMobile()) {
+      scale = document.documentElement.clientWidth / HERO.w
+      page.style.height = page.style.transform = wrap.style.height = ''
+    } else {
+      const h = heightOf()
+      scale = document.documentElement.clientWidth / DESIGN_W
+      page.style.height = `${h}px`
+      page.style.transform = `scale(${scale})`
+      wrap.style.height = `${h * scale}px`
+    }
     aurora?.resize(scale)
     ScrollTrigger.refresh()
   }
   addEventListener('resize', fit)
   fit()
+  wireMenu()
 
   if (still) return { page, fit }
 
