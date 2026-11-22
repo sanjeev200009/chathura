@@ -2,8 +2,10 @@ import '../styles/base.css'
 import '../styles/page.css'
 import '../styles/about.css'
 import { mountPage } from '../core/innerPage.js'
+import { readMore } from '../core/layout.js'
 import { pageHero, chip, rows, contactFooter } from '../components/ui.js'
 import { PROCESS, TOOLS } from '../data/content.js'
+import { STAR } from '../components/icons.js'
 
 const story = `
   ${chip('st-chip', 'MY STORY', 'grey')}
@@ -29,7 +31,7 @@ const toolkit = `
   <section id="tk" aria-label="Toolkit">
     ${chip('tk-chip', 'TOOLKIT', 'light')}
     <h2 id="tk-title">The tools behind the work.</h2>
-    ${TOOLS.map((t, i) => `<div class="tool-card" style="left:${TOOL_LEFT[i]}px"><b></b><h3>${t.name}</h3><p>${t.text}</p></div>`).join('\n    ')}
+    ${TOOLS.map((t, i) => `<div class="tool-card" style="left:${TOOL_LEFT[i]}px"><b>${STAR}</b><h3>${t.name}</h3><p>${t.text}</p></div>`).join('\n    ')}
   </section>`
 
 mountPage({
@@ -52,3 +54,5 @@ mountPage({
     ['#ct-text', '#ct-text, #ct-mail, #ct-links a', { y: 30, stagger: 0.1 }],
   ],
 })
+
+readMore('#st-text')

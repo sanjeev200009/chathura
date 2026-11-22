@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { still, startSmoothScroll } from '../motion/smoothScroll.js'
 import { split } from '../motion/split.js'
 import { revealWords, revealGroup } from '../motion/reveal.js'
+import { drawOnScroll } from '../motion/draw.js'
 import { startAurora } from '../three/aurora.js'
 import { isMobile, wireMenu, spaceBreaks } from './layout.js'
 import '../styles/effects.css'
@@ -67,5 +68,6 @@ export function mountPage({ html, height, headings = [], groups = [] }) {
 
   headings.forEach((sel) => revealWords(sel))
   groups.forEach(([trigger, targets, vars]) => revealGroup(trigger, targets, vars))
+  drawOnScroll(page, 'svg', { redrawOn: '.svc, .tool-card, .abtn, #pd-back' })
   return { page, fit }
 }

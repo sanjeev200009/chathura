@@ -47,4 +47,5 @@ body { margin: 0; background: #fff; overflow-x: hidden; }
 
 /* Word masks for heading reveals, and the scroll progress line */
 .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .14em; margin-bottom: -.14em; }
+.tarrow { display: inline-block; vertical-align: -1px; margin: 0 2px; }
 #progress { position: fixed; left: 0; top: 0; width: 100%; height: 3px; background: #1fb88a; transform: scaleX(0); transform-origin: 0 50%; z-index: 100; pointer-events: none; }

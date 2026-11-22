@@ -19,3 +19,10 @@ export const SOCIAL_ICONS = {
   instagram: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2" y="2" width="16" height="16" rx="5"/><circle cx="10" cy="10" r="3.8"/><circle cx="14.7" cy="5.3" r=".6" fill="#fff"/></svg>',
   email: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"><rect x="2" y="4" width="16" height="12" rx="2.5"/><path d="M3 6l7 5 7-5"/></svg>',
 }
+
+// A small arrow drawn in the text colour, for buttons ("← back", "next →").
+export const textArrow = (dir) =>
+  `<svg class="tarrow" width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${dir === 'left' ? 'M13 5H1.5M5.5 1L1.5 5l4 4' : 'M1 5h11.5M8.5 1l4 4-4 4'}"/></svg>`
+
+// The four-point star on the toolkit cards.
+export const STAR = '<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c.7 4.6 2.4 6.3 7 7-4.6.7-6.3 2.4-7 7-.7-4.6-2.4-6.3-7-7 4.6-.7 6.3-2.4 7-7z"/></svg>'

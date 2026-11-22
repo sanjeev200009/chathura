@@ -20,6 +20,6 @@
 #tk-chip { left: 889px; top: 103px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
 #tk-title { left: 0; width: 1870px; top: 186px; margin: 0; text-align: center; font: 400 52.7px/65px "Inter", sans-serif; letter-spacing: -.045em; }
 .tool-card { top: 306px; width: 376px; height: 232px; border-radius: 14px; background: #e9f1f0; color: #0a0a0a; }
-.tool-card b { position: absolute; left: 27px; top: 30px; width: 48px; height: 48px; border-radius: 50%; background: #0a0a0a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5c.7 4.6 2.4 6.3 7 7-4.6.7-6.3 2.4-7 7-.7-4.600-2.400-6.300-7-7 4.600-.7 6.300-2.400 7-7z' fill='%23fff'/%3E%3C/svg%3E") center / 22px no-repeat; }
+.tool-card b { position: absolute; left: 27px; top: 30px; width: 48px; height: 48px; border-radius: 50%; background: #0a0a0a; display: grid; place-items: center; }
 .tool-card h3 { position: absolute; left: 27px; top: 143px; margin: 0; font: 400 22px/36px "Inter", sans-serif; letter-spacing: -.02em; }
 .tool-card p { position: absolute; left: 27px; top: 181px; margin: 0; font: 300 13px/26px "Inter", sans-serif; color: #8c97a8; }

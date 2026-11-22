@@ -8,7 +8,8 @@ import { still, startSmoothScroll } from '../motion/smoothScroll.js'
 import { split } from '../motion/split.js'
 import { replay } from '../motion/reveal.js'
 import { typeText, typeCycle } from '../motion/typing.js'
-import { isMobile, wireMenu, spaceBreaks } from '../core/layout.js'
+import { drawOnScroll } from '../motion/draw.js'
+import { isMobile, wireMenu, readMore, spaceBreaks } from '../core/layout.js'
 import { HERO_PHRASES } from '../data/content.js'
 import { homeFooter } from '../components/ui.js'
 import * as S from '../sections/home.js'
@@ -149,6 +150,9 @@ function revealOnScroll() {
     const tw = gsap.from(targets, { opacity: vars.opacity ?? 0, duration: 0.9, ease: 'power3.out', ...vars, paused: true })
     at(sec, y, tw, $(targets.split(',')[0]))
   })
+  // Every line icon draws itself as it arrives (and again when its card is hovered).
+  drawOnScroll(wrap, 'svg:not(#cursor)', { redrawOn: '.card, #ft-links a' })
+
   gsap.from('#qa-mark', { opacity: 0, yPercent: 14, duration: 1.8, ease: 'power3.out', scrollTrigger: { trigger: mobile ? secs[5] : markers[5], start: 'top 70%', toggleActions: 'play none none reverse' } })
 }
 
@@ -161,6 +165,7 @@ function follow(el, x, ry = 0, rx = 0) {
 
 function wireControls() {
   wireMenu()
+  readMore('#ab-text')
   // Accordion: click a plus to open its text (only items with text open).
   $$('#acc .row').forEach((row) => {
     const desc = row.querySelector('.desc')

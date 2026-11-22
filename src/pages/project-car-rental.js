@@ -3,6 +3,7 @@ import '../styles/page.css'
 import '../styles/project.css'
 import { mountPage } from '../core/innerPage.js'
 import { pageHero, chip, rows, contactFooter } from '../components/ui.js'
+import { textArrow } from '../components/icons.js'
 
 const FACTS = [
   ['CATEGORY', 'Website Design (UI/UX)'],
@@ -19,7 +20,7 @@ const OVERVIEW = [
 ]
 
 const facts = `
-  <a id="pd-back" href="/work.html">← BACK TO SELECTED WORK</a>
+  <a id="pd-back" href="/work.html">${textArrow('left')} BACK TO SELECTED WORK</a>
   <div id="pd-meta">
     ${FACTS.map(([k, v], i) => `<div style="left:${FACT_LEFT[i] ? `${FACT_LEFT[i]}px` : '0'}"><small>${k}</small><span>${v}</span></div>`).join('\n    ')}
   </div>`
@@ -42,7 +43,7 @@ const fullDesign = `
 const more = `
   ${chip('ke-chip', 'KEEP EXPLORING', 'grey')}
   <h2 id="ke-title">See more of my work.</h2>
-  <div id="ke-cta"><a class="abtn light" style="width:209px" href="/work.html">← ALL SELECTED WORK</a><a class="abtn dark" style="width:242px" href="/work.html">NEXT: MOBILE APP DESIGN →</a></div>`
+  <div id="ke-cta"><a class="abtn light" style="width:209px" href="/work.html">${textArrow('left')} ALL SELECTED WORK</a><a class="abtn dark" style="width:242px" href="/work.html">NEXT: MOBILE APP DESIGN ${textArrow('right')}</a></div>`
 
 mountPage({
   height: 4645,

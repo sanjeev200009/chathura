@@ -3,7 +3,8 @@
    back into normal flow, one column, readable sizes. `!important` only where a page sets the
    desktop position inline (cards, panels, the work page's stacking). */
 
-#menu { display: none; }
+#menu, #sheet, .more, #minibar { display: none; }
+html.locked { overflow: hidden; }
 
 @media (max-width: 1099px) {
   :root {
@@ -21,23 +22,13 @@
   /* ---------- Navigation: logo, button, and a menu that opens below ---------- */
   :root #nav { position: relative; left: auto; top: auto; width: auto; height: 56px; margin: 10px 10px 0; z-index: 30; translate: none; }
   :root #logo { left: 20px; font-size: 18px; line-height: 54px; }
-  :root #nav ul {
-    display: none; position: absolute; top: 64px; left: 0; right: 0; height: auto; padding: 8px;
-    flex-direction: column; align-items: stretch; gap: 0; border-radius: 20px;
-    background: rgba(6, 28, 23, .96); backdrop-filter: blur(12px); box-shadow: 0 20px 40px -20px rgba(0,0,0,.6);
-  }
-  :root #nav.open ul { display: flex; }
-  :root #nav li a { display: block; padding: 14px 16px; border-radius: 12px; font-size: 15px; color: rgba(225,240,234,.88); background: none; }
-  :root #nav li a:hover, :root #nav li a.on { background: rgba(255,255,255,.07); color: #fff; }
-  :root #abhero #nav li a.on::after { display: none; }
+  :root #nav ul { display: none; } /* on phones the links live in the pop-up menu (#sheet) */
   :root #cta { right: 58px; top: 9px; width: auto; height: 38px; padding: 0 16px; font-size: 12px; line-height: 38px; }
   :root #menu { display: block; position: absolute; right: 9px; top: 9px; width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(255,255,255,.14); cursor: pointer; }
-  :root #menu i { position: absolute; left: 11px; width: 16px; height: 1.6px; border-radius: 2px; background: #fff; transition: top .3s, rotate .3s; }
+  :root #menu i { position: absolute; left: 11px; width: 16px; height: 1.6px; border-radius: 2px; background: #fff; transition: width .3s, left .3s; }
+  :root #menu:hover i:last-child { width: 10px; left: 17px; }
   :root #menu i:first-child { top: 15px; }
   :root #menu i:last-child { top: 21px; }
-  :root #nav.open #menu i { top: 18px; }
-  :root #nav.open #menu i:first-child { rotate: 45deg; }
-  :root #nav.open #menu i:last-child { rotate: -45deg; }
   @media (max-width: 380px) { :root #cta { display: none; } }
 
   /* Shared pieces */
@@ -173,7 +164,8 @@
   :root #tk-title, :root #fq-title, :root #pp-title, :root #fd-title { width: auto; margin-top: 14px; font-size: var(--h2); line-height: 1.2; }
   :root .tool-card, :root .pc { width: auto; height: auto; margin-top: 12px; padding: 24px; text-align: left; }
   :root .tool-card > *, :root .pc > * { position: static !important; white-space: normal !important; }
-  :root .tool-card b, :root .pc b { display: block; }
+  :root .tool-card b { display: grid; }
+  :root .pc b { display: block; }
   :root .tool-card h3, :root .pc h3 { margin-top: 28px; font-size: 21px; line-height: 1.3; }
   :root .tool-card p, :root .pc p { margin-top: 4px; font-size: 14.5px; line-height: 1.55; }
   :root #tk-title, :root #pp-title { margin-bottom: 20px; }
@@ -227,4 +219,73 @@
   :root #ct-mail { margin: 28px auto 0; width: max-content; max-width: 100%; padding: 0 20px; }
   :root #ct-links { flex-wrap: wrap; gap: 14px 24px; margin-top: 28px; }
   :root #ct-base { height: auto; margin: 48px calc(-1 * var(--gut)) 0; padding: 20px var(--gut); background: #fff; flex-direction: column; gap: 8px; line-height: 1.5; }
+}
+
+/* ---------- The pop-up menu (phones and tablets) ---------- */
+@media (max-width: 1099px) {
+  :root #sheet:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 200; }
+  :root .sh-bg { position: absolute; inset: 0; background: rgba(4, 14, 11, .5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  :root .sh-panel {
+    position: absolute; top: 8px; right: 8px; bottom: 8px; width: min(400px, calc(100vw - 16px)); box-sizing: border-box;
+    display: flex; flex-direction: column; padding: 14px 22px 26px; border-radius: 24px; overflow-y: auto;
+    background: radial-gradient(130% 55% at 100% 0%, rgba(31, 184, 138, .30), transparent 62%), radial-gradient(90% 40% at 0% 100%, rgba(200, 242, 29, .08), transparent 70%), #0c1715;
+    border: 1px solid rgba(255, 255, 255, .08); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6);
+    color: #fff; font-family: "Inter", sans-serif;
+  }
+  :root .sh-top { display: flex; align-items: center; justify-content: space-between; height: 48px; }
+  :root .sh-logo { font: 600 17px/1 "Poppins", sans-serif; letter-spacing: .02em; }
+  :root .sh-close { position: relative; width: 42px; height: 42px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .1); cursor: pointer; transition: background .25s, rotate .4s; }
+  :root .sh-close:hover { background: rgba(255, 255, 255, .18); rotate: 90deg; }
+  :root .sh-close i { position: absolute; left: 13px; top: 20px; width: 16px; height: 1.6px; border-radius: 2px; background: #fff; rotate: 45deg; }
+  :root .sh-close i + i { rotate: -45deg; }
+  :root .sh-links { display: flex; flex-direction: column; margin-top: 36px; }
+  :root .sh-links a {
+    display: flex; align-items: baseline; gap: 16px; padding: 16px 2px; border-bottom: 1px solid rgba(255, 255, 255, .08);
+    color: rgba(255, 255, 255, .62); text-decoration: none; font: 300 clamp(26px, 7.4vw, 32px)/1.15 "Inter", sans-serif; letter-spacing: -.035em;
+    transition: color .25s;
+  }
+  :root .sh-links small { width: 22px; font: 500 11px/1 "Inter", sans-serif; letter-spacing: .04em; color: rgba(255, 255, 255, .4); }
+  :root .sh-links .tarrow { margin-left: auto; align-self: center; opacity: 0; translate: -8px 0; transition: opacity .3s, translate .3s; }
+  :root .sh-links a:hover, :root .sh-links a:focus-visible, :root .sh-links a.on { color: #fff; }
+  :root .sh-links a:hover .tarrow, :root .sh-links a:focus-visible .tarrow { opacity: 1; translate: 0 0; }
+  :root .sh-links a.on small { color: #1fe39b; }
+  :root .sh-links a.on span::after { content: ""; display: inline-block; width: 6px; height: 6px; margin-left: 10px; vertical-align: middle; border-radius: 50%; background: #1fe39b; box-shadow: 0 0 12px #1fe39b; }
+  :root .sh-foot { margin-top: auto; padding-top: 36px; display: flex; flex-direction: column; gap: 14px; }
+  :root .sh-foot > small { font: 400 13px/1.4 "Inter", sans-serif; color: rgba(255, 255, 255, .55); }
+  :root .sh-mail { display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0a0a0a; text-decoration: none; font: 500 14px/1 "Inter", sans-serif; transition: translate .3s, box-shadow .3s; }
+  :root .sh-mail:hover { translate: 0 -2px; box-shadow: 0 12px 24px -12px rgba(0, 0, 0, .6); }
+  :root .sh-social { display: flex; flex-wrap: wrap; gap: 8px; }
+  :root .sh-social a { padding: 9px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); color: rgba(255, 255, 255, .8); text-decoration: none; font: 400 13px/1 "Inter", sans-serif; transition: background .25s, color .25s; }
+  :root .sh-social a:hover { background: rgba(255, 255, 255, .1); color: #fff; }
+
+  /* Long text: first paragraph only, a few lines, until "Read more" */
+  :root .clamp:not(.open) > p:not(:first-child) { display: none; }
+  :root .clamp:not(.open) > p:first-child { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; margin-bottom: 0; }
+  :root .more {
+    display: inline-flex; align-items: center; gap: 8px; position: relative; margin-top: 14px; padding: 0; border: 0; background: none; cursor: pointer;
+    font: 500 14px/1.4 "Inter", sans-serif; color: #0b0f19; text-decoration: underline; text-decoration-color: #b8cdc8; text-underline-offset: 5px; transition: text-decoration-color .25s;
+  }
+  :root .more:hover { text-decoration-color: currentColor; }
+  :root #page > .more { margin-left: var(--gut); }
+
+  /* Work tabs scroll sideways: fade the edge so it reads as scrollable */
+  :root #wk-tabs { mask-image: linear-gradient(to right, #000 85%, transparent); }
+}
+
+/* ---------- Floating bar with the menu button (phones and tablets, after the top) ---------- */
+@media (max-width: 1099px) {
+  :root #minibar {
+    display: flex; align-items: center; justify-content: space-between; position: fixed; z-index: 150;
+    top: 10px; left: 10px; right: 10px; height: 54px; padding: 0 8px 0 20px; box-sizing: border-box; border-radius: 999px;
+    background: rgba(12, 23, 21, .82); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, .08); box-shadow: 0 14px 30px -18px rgba(0, 0, 0, .7);
+    translate: 0 -80px; opacity: 0; transition: translate .5s cubic-bezier(.2,.8,.2,1), opacity .4s; pointer-events: none;
+  }
+  :root #minibar.show { translate: 0 0; opacity: 1; pointer-events: auto; }
+  :root #minibar a { color: #fff; text-decoration: none; font: 600 16px/1 "Poppins", sans-serif; letter-spacing: .02em; }
+  :root #minibar button { position: relative; width: 38px; height: 38px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .14); cursor: pointer; }
+  :root #minibar i { position: absolute; left: 11px; width: 16px; height: 1.6px; border-radius: 2px; background: #fff; transition: width .3s, left .3s; }
+  :root #minibar i:first-child { top: 15px; }
+  :root #minibar i:last-child { top: 21px; }
+  :root #minibar button:hover i:last-child { width: 10px; left: 17px; }
 }
