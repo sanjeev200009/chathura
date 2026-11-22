@@ -1,0 +1,21 @@
+/* Selected Work page (design px, 1920 wide). Uses the shared page, hero and footer styles from about.css. */
+#pf-chip { left: 908px; top: 811px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#pf-title { left: 0; width: 1920px; top: 853px; margin: 0; text-align: center; font: 400 52.7px/76px "Inter", sans-serif; letter-spacing: -.045em; }
+#pf-filters { left: 0; width: 1920px; top: 973px; display: flex; justify-content: center; gap: 15px; }
+.pf { height: 47px; padding: 0; border: 0; border-radius: 999px; background: #e9f1f0; color: #0a0a0a; font: 600 11.5px/47px "Inter", sans-serif; cursor: pointer; transition: background .3s, color .3s; }
+.pf:hover { background: #d8e6e3; }
+.pf.on { background: #0a0a0a; color: #fff; }
+
+/* One green panel per project; work.js stacks the visible ones. */
+.proj { left: 25px; width: 1870px; height: 785px; border-radius: 28px; background: #5f817d; color: #fff; overflow: hidden; }
+.proj > * { position: absolute; }
+.pj-chip { left: 104px; top: 66px; height: 27px; padding: 0 14px; font-size: 10.5px; line-height: 27px; }
+.pj-count { right: 101px; top: 66px; font: 400 12px/27px "Inter", sans-serif; color: rgba(255,255,255,.75); }
+.pj-line { left: 104px; right: 101px; top: 141px; height: 1px; background: rgba(255,255,255,.25); }
+.pj-img { top: 193px; height: 501px; box-sizing: border-box; border-radius: 26px; border: 1px solid #111; object-fit: cover; }
+.pj-ph { top: 193px; width: 677px; height: 501px; box-sizing: border-box; border-radius: 16px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); display: grid; place-items: center; font: 400 13px/1 "Inter", sans-serif; color: rgba(255,255,255,.72); }
+.pj-info { top: 307px; width: 720px; }
+.pj-info h3 { margin: 0; font: 400 51px/52px "Inter", sans-serif; letter-spacing: -.04em; white-space: nowrap; }
+.pj-info h4 { margin: 20px 0 0; font: 300 24px/36px "Inter", sans-serif; letter-spacing: -.02em; color: rgba(255,255,255,.88); }
+.pj-info p { margin: 17px 0 0; font: 300 15.5px/30px "Inter", sans-serif; color: rgba(255,255,255,.7); }
+.pj-info .wbtn { position: static; display: block; margin-top: 41px; width: 175px; height: 49px; font: 500 12.5px/49px "Inter", sans-serif; }

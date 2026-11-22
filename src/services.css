@@ -1,0 +1,31 @@
+/* My Services page (design px, 1920 wide). Uses the shared page, hero, list and footer styles from about.css. */
+#page { height: 4348px; }
+#contact { top: 3839px; }
+
+#sv2-chip { left: 178px; top: 803px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#sv2-title { left: 178px; top: 866px; margin: 0; font: 400 52.7px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#sv2-text { left: 178px; top: 957px; width: 835px; margin: 0; font: 300 17.4px/30px "Inter", sans-serif; color: #747e90; }
+#sv2-text .j { display: block; text-align: justify; text-align-last: justify; }
+#sv2-line { left: 178px; top: 1072px; width: 1563px; height: 1px; background: #f0f1f5; }
+
+.svc { width: 505px; height: 467px; border-radius: 28px; background: #e9f1f0; }
+.svc .cico { position: absolute; left: 35px; top: 37px; }
+.svc h3 { position: absolute; left: 31px; top: 260px; margin: 0; font: 400 26.5px/36px "Inter", sans-serif; letter-spacing: -.035em; }
+.svc p { position: absolute; left: 31px; top: 308px; margin: 0; font: 300 15.4px/24px "Inter", sans-serif; color: #747e90; white-space: nowrap; }
+.svc .gbtn { position: absolute; left: 31px; top: 387px; width: 196px; height: 46px; box-sizing: border-box; border-radius: 999px; border: 1px solid #b2c1be; background: #fff; color: #0a0a0a; text-decoration: none; text-align: center; font: 500 13.4px/44px "Inter", sans-serif; transition: background .25s, color .25s, border-color .25s; }
+.svc .gbtn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+
+#ev-chip { left: 365px; top: 2270px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#ev-title { left: 722px; top: 2245px; margin: 0; font: 400 52.7px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#ev-list { left: 722px; top: 2374px; width: 907px; border-top: 1px solid #f1f1f5; }
+
+#fq { left: 25px; top: 2978px; width: 1870px; height: 750px; border-radius: 28px; background: #5f817d; color: #fff; }
+#fq > * { position: absolute; }
+#fq-chip { left: 818px; top: 100px; height: 27px; padding: 0 14px; font-size: 10px; line-height: 27px; }
+#fq-title { left: 0; width: 1870px; top: 188px; margin: 0; text-align: center; font: 400 52.7px/63px "Inter", sans-serif; letter-spacing: -.04em; }
+.fqr { width: 594px; height: 85px; box-sizing: border-box; border-radius: 12px; background: #e9f1f0; color: #0a0a0a; cursor: pointer; transition: transform .25s; }
+.fqr:hover { transform: translateY(-3px); }
+.fqr span { position: absolute; left: 32px; top: 0; font: 400 16.6px/85px "Inter", sans-serif; }
+.fqr i { position: absolute; right: 30px; top: 30px; width: 25px; height: 25px; border-radius: 50%; background: #0a0a0a; }
+.fqr i::before, .fqr i::after { content: ""; position: absolute; left: 7px; top: 12px; width: 11px; height: 1.6px; background: #fff; }
+.fqr i::after { transform: rotate(90deg); }

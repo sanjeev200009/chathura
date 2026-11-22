@@ -1,0 +1,24 @@
+/* Project detail page (design px, 1920 wide). Uses the shared page, hero, list, button and footer styles from about.css. */
+#contact { top: 4136px; }
+#pd-back { left: 177px; top: 741px; width: 244px; height: 53px; box-sizing: border-box; border: 1px solid #e3e7ea; border-radius: 999px; background: #fff; color: #0a0a0a; text-decoration: none; text-align: center; font: 600 13.4px/51px "Inter", sans-serif; transition: background .25s, color .25s; }
+#pd-back:hover { background: #0a0a0a; color: #fff; }
+#pd-meta { left: 177px; top: 836px; width: 1571px; height: 107px; border-top: 1px solid #eef0f3; border-bottom: 1px solid #eef0f3; }
+#pd-meta > div { position: absolute; top: 0; }
+#pd-meta small { position: absolute; top: 28px; white-space: nowrap; font: 600 10px/14px "Inter", sans-serif; letter-spacing: .04em; color: #8c97a8; }
+#pd-meta span { position: absolute; top: 53px; white-space: nowrap; font: 400 18.3px/24px "Inter", sans-serif; color: #0b0f19; }
+#ov-chip { left: 304px; top: 1083px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#ov-title { left: 660px; top: 1059px; margin: 0; font: 400 52.7px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#ov-list { left: 660px; top: 1187px; width: 906px; border-top: 1px solid #f1f1f5; }
+#ov-list .prow p { font-size: 15.5px; line-height: 25px; }
+#fd { left: 25px; top: 1691px; width: 1870px; height: 2019px; border-radius: 28px; background: #5f817d; color: #fff; }
+#fd > * { position: absolute; }
+#fd-chip { left: 885px; top: 103px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#fd-title { left: 0; width: 1870px; top: 182px; margin: 0; text-align: center; font: 400 52.7px/65px "Inter", sans-serif; letter-spacing: -.045em; }
+#fd-img { left: 151px; top: 293px; width: 1573px; height: 1069px; box-sizing: border-box; border: 4px solid #0b0f19; border-radius: 30px; object-fit: cover; background: #fff; }
+#fd-cap { left: 216px; top: 1410px; font: 500 13px/24px "Inter", sans-serif; color: rgba(255,255,255,.85); }
+#fd-count { right: 216px; top: 1410px; font: 400 12px/24px "Inter", sans-serif; color: rgba(255,255,255,.75); }
+.fd-ph { top: 1480px; width: 776px; height: 437px; box-sizing: border-box; border-radius: 14px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font: 400 15px/1 "Inter", sans-serif; color: rgba(255,255,255,.72); }
+.fd-ph small { font-size: 11px; color: rgba(255,255,255,.5); }
+#ke-chip { left: 367px; top: 3880px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#ke-title { left: 725px; top: 3856px; margin: 0; font: 400 52.7px/76px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#ke-cta { left: 365px; top: 3973px; display: flex; gap: 16px; }

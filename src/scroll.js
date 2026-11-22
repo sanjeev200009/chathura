@@ -64,7 +64,9 @@ export function startScroll({ secs, lifts, place, markers, getS }) {
     [6, 170, '#ft-text, #ft-mail, #ft-links a', { y: 30, stagger: 0.1 }],
   ]
   groups.forEach(([sec, y, targets, vars]) => {
-    reveal(markers[sec], y, getS, () => gsap.from(targets, { opacity: vars.opacity ?? 0, duration: 0.9, ease: 'power3.out', ...vars }))
+    // Built paused so the hidden start state is set at once (no flash), then played when its moment comes.
+    const tw = gsap.from(targets, { opacity: vars.opacity ?? 0, duration: 0.9, ease: 'power3.out', ...vars, paused: true })
+    reveal(markers[sec], y, getS, () => tw.play())
   })
   gsap.from('#qa-mark', { opacity: 0, yPercent: 14, duration: 1.8, ease: 'power3.out', scrollTrigger: { trigger: markers[5], start: 'top 70%', once: true } })
 
@@ -77,7 +79,7 @@ function reveal(marker, y, getS, play) {
 }
 
 // Wrap each word in a mask so it can rise from below. Keeps <br> and the spaces.
-function split(el) {
+export function split(el) {
   const out = []
   const walk = (node) => {
     [...node.childNodes].forEach((n) => {

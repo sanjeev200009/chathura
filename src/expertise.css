@@ -1,0 +1,18 @@
+/* Our Expertise page (design px, 1920 wide). Uses the shared page, hero, list and footer styles from about.css. */
+#contact { top: 2870px; }
+#xp-chip { left: 365px; top: 811px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#xp-title { left: 723px; top: 791px; margin: 0; font: 400 52.5px/64px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+.xs { top: 999px; width: 507px; height: 226px; box-sizing: border-box; border: 1px solid #b8cdc8; border-radius: 12px; background: #e9f1f0; }
+.xs h3 { position: absolute; left: 47px; top: 40px; margin: 0; font: 400 52px/66px "Inter", sans-serif; letter-spacing: -.035em; white-space: nowrap; }
+.xs p { position: absolute; left: 44px; top: 161px; margin: 0; font: 300 17.4px/26px "Inter", sans-serif; color: #8c97a8; white-space: nowrap; }
+#sk-chip { left: 365px; top: 1394px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#sk-title { left: 723px; top: 1376px; margin: 0; font: 400 52.7px/64px "Inter", sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+#sk-list { left: 722px; top: 1499px; width: 908px; border-top: 1px solid #f1f1f5; }
+#pp { left: 25px; top: 2101px; width: 1870px; height: 661px; border-radius: 28px; background: #5f817d; color: #fff; }
+#pp > * { position: absolute; }
+#pp-chip { left: 878px; top: 103px; height: 27px; padding: 0 14px; font-size: 11px; line-height: 27px; }
+#pp-title { left: 0; width: 1870px; top: 188px; margin: 0; text-align: center; font: 400 52.7px/63px "Inter", sans-serif; letter-spacing: -.045em; }
+.pc { top: 309px; width: 376px; height: 250px; border-radius: 14px; background: #e9f1f0; color: #0a0a0a; }
+.pc b { position: absolute; left: 27px; top: 27px; width: 49px; height: 49px; border-radius: 50%; background: #0a0a0a; color: #fff; font: 500 14px/49px "Inter", sans-serif; text-align: center; }
+.pc h3 { position: absolute; left: 28px; top: 141px; margin: 0; font: 400 23px/36px "Inter", sans-serif; letter-spacing: -.02em; white-space: nowrap; }
+.pc p { position: absolute; left: 28px; top: 183px; margin: 0; font: 300 14.4px/20px "Inter", sans-serif; color: #8c97a8; white-space: nowrap; }
